@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import styles from "../styles/Home.module.css";
-import { FormEvent, useCallback, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import React from "react";
 import { Header } from "../component/header";
 
@@ -9,6 +9,16 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [title, setTitle] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
+
+  const getApi = useCallback(async () => {
+    const res = await fetch ("http://localhost:3001/todos");
+    const json = await res.json();
+    setTitle(json[0].title);
+  },[]);
+
+  useEffect(() => {
+    getApi();
+  },[getApi])
 
   type Todo = {
     id: number,
@@ -24,7 +34,7 @@ export default function Home() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newTodo: Todo = {
-      id: title.length,
+      id: todos.length,
       title: title,
       isDone: false,
     };
@@ -85,6 +95,7 @@ export default function Home() {
       <Header />
       <main className={styles.main}>
         <h1 className={styles.title}>Todo</h1>
+        <h2>{title}</h2>
         <form onSubmit={(e) => { handleSubmit(e) }}>
           <input
             type="text"
