@@ -10,6 +10,7 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
 
+  // ここ多分 useEffect 内で宣言しないと怒られる？
   const getApi = useCallback(async () => {
     const res = await fetch ("http://localhost:3001/todos");
     const json = await res.json();
@@ -20,6 +21,7 @@ export default function Home() {
     getApi();
   },[getApi])
 
+  // type は基本、コンポーネント内で宣言しない
   type Todo = {
     id: number,
     title: string,
@@ -70,6 +72,7 @@ export default function Home() {
 
 
 
+  // ↓基本コメントは消す！（可読性が下がるため）
   // const handleAdd = useCallback(() => {
   //   setTodos((prevTodos) => {
   //     return [...prevTodos, title];
@@ -107,7 +110,7 @@ export default function Home() {
             <li key={todo.id}>
               <input
                 type="text"
-                value = {todo.title} 
+                value = {todo.title}
                 onChange={ (e) => handleEdit(todo.id, e.target.value)}
                 disabled = {todo.isDone}
                 />
@@ -122,7 +125,7 @@ export default function Home() {
 
 
 
-{/* 
+{/*
         <ul>
           {Todos.length === 0 ? (<li>現在、Todoがありません</li>) :
             <ul>
