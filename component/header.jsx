@@ -1,5 +1,8 @@
 import Head from 'next/head'
 
+// これはHeaderではないかも？
+// Header は、画面の上部に表示される要素のこと。
+// Head はメタ情報（ページタイトルやページの説明など、Webサイトとして公開するときに、SEO関連でGoogleに対して提供する情報）を埋め込むためのもの。
 export function Header() {
     return (
         <>
