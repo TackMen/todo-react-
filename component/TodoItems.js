@@ -7,28 +7,28 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [text, setText] = useState("");
-  const [Todos, setTodos] = useState([]);
+  const [array, setArray] = useState([]);
 
   const handleChange = useCallback((e) => {
     setText(e.target.value.trim());
   }, []);
 
   const handleAdd = useCallback(() => {
-    setTodos((prevTodos) => {
-      return [...prevTodos, text];
+    setArray((prevArray) => {
+      return [...prevArray, text];
     });
   }, [text]);
 
-  const hundleDelete = (index) => {
-    const newTodos = [...Todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
+  const deleteTodo = (index) => {
+    const newArray = [...array];
+    newArray.splice(index, 1);
+    setArray(newArray);
   };
 
   const completeTodo = (index) => {
-    const newTodos = [...Todos];
-    newTodos [index] = `${items[index]}(完了)`;
-    setTodos(newTodos);
+    const newArray = [...array];
+    newArray [index] = `${items[index]}(完了)`;
+    setArray(newArray);
   };
 
 
@@ -40,13 +40,14 @@ export default function Home() {
           <input type="text" value={text} onChange={handleChange} />
           <button onClick={handleAdd}>追加する</button>
           <ul>
-            {Todos.length === 0 ?(<li>現在、Todoがありません</li>):
+            {array.length === 0 ?(<li>現在、Todoがありません</li>):
             <ul>
-            {Todos.map((item) => {
+            {array.map((item) => {
               return <li key={item}>{item}</li>;
             })}
+
             <button
-              onClick={() => {hundleDelete(index)}}
+              onClick={() => {deleteTodo(index)}}
               className= {styles.deleteButton}
             >削除</button>
             <button onClick={() => {completeTodo(index)}}>完了</button>
@@ -56,7 +57,7 @@ export default function Home() {
 
 
             {/* <li>現在、Todoがありません</li>
-            {Todos.map((item) => {
+            {array.map((item) => {
               return <li key={item}>{item}</li>;
             })} */}
             {/* <button
