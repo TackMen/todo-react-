@@ -38,7 +38,7 @@ export default function Home() {
       <Form />
       <ul>
         {todos.map((todo) => (
-          <Todolist key = {todo.id} todoItem={todo}/>
+          <Todolist key = {todo} todoItem={todo}/>
         ))}
       </ul>
     </main >

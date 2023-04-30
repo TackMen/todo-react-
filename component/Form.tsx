@@ -17,19 +17,19 @@ export function Form() {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   // 取得
-  useEffect(() => {
-    const sendGetTodoRequest = async () => {
-      const res = await fetch(API_ENDPOINT, {
-        method: "GET"
-      });
-      const json = await res.json();
-      setTodos(json);
-    }
+  // useEffect(() => {
+  //   const sendGetTodoRequest = async () => {
+  //     const res = await fetch(API_ENDPOINT, {
+  //       method: "GET"
+  //     });
+  //     const json = await res.json();
+  //     setTodos(json);
+  //   }
 
-    (async () => {
-      await sendGetTodoRequest();
-    })()
-  }, []);
+  //   (async () => {
+  //     await sendGetTodoRequest();
+  //   })()
+  // }, []);
 
 
   // 送信 
