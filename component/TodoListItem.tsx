@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google'
 import { useEffect, useState } from 'react'
+import styles from '../styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,24 +14,8 @@ type Todo = {
 const API_ENDPOINT = "http://localhost:5000/todos"
 
 export function Todolist(props) {
-  // const [title, setTitle] = useState("")
   const [todos, setTodos] = useState<Todo[]>([]);
   const [selectedTodo, setSelectedTodo] = useState<Todo>();
-
-  // 取得
-  useEffect(() => {
-    const sendGetTodoRequest = async () => {
-      const res = await fetch(API_ENDPOINT, {
-        method: "GET"
-      });
-      const json = await res.json();
-      setTodos(json);
-    }
-
-    (async () => {
-      await sendGetTodoRequest();
-    })()
-  }, []);
 
   // 編集
   const handleEdit = async (selectedTodo: Todo) => {
@@ -55,22 +40,30 @@ export function Todolist(props) {
   // 完了・未完了
   // patch
   const handleToggleIsDone = async (id: number) => {
-    // patch
-    const todo = todos.find((todo) => todo.id ===id);
-    if(!todo) return;
-    let updatedTodo = {...todo, isDone:!todo.isDone};
-    const res = await fetch(`${API_ENDPOINT}/${id}`,{
-      method: 'PUT',
+    const todo = todos.find((todo) => todo.id === id);
+    if (!todo) return;
+    const updatedTodo = { ...todo, isDone: !todo.isDone };
+    const res = await fetch(`${API_ENDPOINT}/${id}`, {
+      method: 'PATCH',
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedTodo),
     });
     const data = await res.json();
-    setTodos(todos.map((todo) => (todo.id ===data.id?data: todo))
+    setTodos(
+      todos.map((todo) => (todo.id === data.id ? data : todo.isDone))
     );
+
+    
+
+    // const updatedTodos = todos.map((todo) =>
+    //  todo.id === data.id? data : todo
+    // );
+    // setTodos(todos.map((todo) => (todo.id ===data.id?data: todo))
+    // );
   }
-  
+
   // const handleToggleIsDone = (id: number) => {
   //   let updatedTodo = todos.map((todo) => {
   //     if (todo.id === id) {
@@ -108,19 +101,22 @@ export function Todolist(props) {
   };
 
   return (
-    <li>
+    <li className={styles.list}>
       <input
+        className={styles.check}
         type="checkbox"
         checked={props.todoItem.isDone}
         onChange={() => handleToggleIsDone(props.todoItem.id)}
       />
       {selectedTodo?.id !== props.todoItem.id ?
         <>
-          <p>{props.todoItem.title}</p>
-          <button onClick={() => {
-            setSelectedTodo(props.todoItem)
-          }}>編集する</button>
-          <button onClick={() => handleRemove(props.todoItem.id)}>削除</button>
+          <p className={styles.text}>{props.todoItem.title}</p>
+          <div className={styles.btn}>
+            <button onClick={() => {
+              setSelectedTodo(props.todoItem)
+            }}>編集する</button>
+            <button onClick={() => handleRemove(props.todoItem.id)}>削除</button>
+          </div>
         </>
         :
         <>
