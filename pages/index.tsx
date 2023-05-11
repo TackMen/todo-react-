@@ -14,7 +14,7 @@ type Todo = {
 
 const API_ENDPOINT = "http://localhost:5000/todos"
 
-export default function Home() {
+export default function Home(props) {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   // 取得
@@ -34,11 +34,11 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <h1 className={styles.TODOtitle}>TODO</h1>
+      <h1 className={styles.title}>TODO</h1>
       <Form />
       <ul>
         {todos.map((todo) => (
-          <Todolist todoItem={todo}/>
+          <Todolist key = {todo} todoItem={todo}/>
         ))}
       </ul>
     </main >
