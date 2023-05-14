@@ -18,9 +18,6 @@ type Props = {
   handleRemove: (id: number) => Promise<void>;
 };
 
-// 外にかく
-const API_ENDPOINT = "http://localhost:5000";
-
 export function Todolist(props: Props) {
   const {
     todoItem,
